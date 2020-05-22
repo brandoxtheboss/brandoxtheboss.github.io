@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!-- Everything related to the slider is copied and modified from w3schools https://www.w3schools.com/howto/howto_js_rangeslider.asp-->
+    <style>
+    .slidecontainer {
+        width: 100%; /* Width of the outside container */
+    }
+
+    /* The slider itself */
+    .slider {
+      -webkit-appearance: none;  /* Override default CSS styles */
+      appearance: none;
+      width: 100%; /* Full-width */
+      height: 25px; /* Specified height */
+      background: #d3d3d3; /* Grey background */
+      outline: none; /* Remove outline */
+      opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+      -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+      transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+      opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none; /* Override default look */
+      appearance: none;
+      width: 25px; /* Set a specific slider handle width */
+      height: 25px; /* Slider handle height */
+      background: #4CAF50; /* Green background */
+      cursor: pointer; /* Cursor on hover */
+    }
+
+    .slider::-moz-range-thumb {
+      width: 25px; /* Set a specific slider handle width */
+      height: 25px; /* Slider handle height */
+      background: #4CAF50; /* Green background */
+      cursor: pointer; /* Cursor on hover */
+    }
+
+    </style>
+    <title>Color Calculator</title>
+  </head>
+  <body>
+    <div class="box" id="colorBox"></div>
+    <div class="slidecontainer" style="background: red;">
+      <input type="range" min="0" max="255" value="0" class="slider" id="redRange">
+    </div>
+    <div class="slidecontainer"style="background: green;">
+      <input type="range" min="0" max="255" value="0" class="slider" id="greenRange">
+    </div>
+    <div class="slidecontainer"style="background: blue;">
+      <input type="range" min="0" max="255" value="0" class="slider" id="blueRange">
+    </div>
+    <p class="stats">
+      Decimal:
+      R: <span id="redDecimal"></span>
+      G: <span id="greenDecimal"></span>
+      B: <span id="blueDecimal"></span>
+    </p>
+    <p class="stats">
+      Binary:
+      R: <span id="redBinary"></span>
+      G: <span id="greenBinary"></span>
+      B: <span id="blueBinary"></span>
+    </p>
+    <p class="stats">
+      Hexadecimal:
+      <span id="redHexadecimal"></span> <span id="greenHexadecimal"></span> <span id="blueHexadecimal"></span>
+    </p>
+    <p class="center">
+      <a class="btn btn-primary" href="https://brandoxtheboss.github.io/index.html" role="button">Home</a>
+      <a class="btn btn-primary" href="https://brandoxtheboss.github.io/about.html" role="button">About</a>
+      <a class="btn btn-primary" href="https://brandoxtheboss.github.io/favorites.html" role="button">Favorites</a>
+    </p>
+    <script>
+    <!-- The binary calculations were taken from w3schools -->
+      function binaryCalculator(dec){
+        return (dec >>> 0).toString(2);
+      }
+      var redSlider = document.getElementById("redRange");
+      var redOutput = document.getElementById("redDecimal");
+      var redBinaryCalc = document.getElementById("redBinary");
+      var redHexCalc = document.getElementById("redHexadecimal");
+      redOutput.innerHTML = redSlider.value;
+      redBinaryCalc.innerHTML = binaryCalculator(parseInt(redSlider.value, 10));
+      redHexCalc.innerHTML = parseInt(redSlider.value, 10).toString(16);
+      redSlider.oninput = function() {
+        redOutput.innerHTML = this.value;
+        redBinaryCalc.innerHTML = binaryCalculator(parseInt(this.value, 10));
+        redHexCalc.innerHTML = parseInt(this.value, 10).toString(16);
+        redHex = parseInt(document.getElementById("redRange").value, 10).toString(16);
+        greenHex = parseInt(document.getElementById("greenRange").value, 10).toString(16);
+        blueHex = parseInt(document.getElementById("blueRange").value, 10).toString(16);
+        if (redHex.length < 2) {
+          if (greenHex.length < 2) {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + '0' + String(redHex) + '0' + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + '0' + String(redHex) + '0' + String(greenHex) + String(blueHex);
+            }
+          } else {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + '0' + String(redHex) + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + '0' + String(redHex) + String(greenHex) + String(blueHex);
+            }
+          }
+        } else {
+          if (greenHex.length < 2) {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + String(redHex) + '0' + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + String(redHex) + '0' + String(greenHex) + String(blueHex);
+            }
+          } else {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + String(redHex) + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + String(redHex) + String(greenHex) + String(blueHex);
+            }
+          }
+        }
+        document.getElementById("colorBox").style.backgroundColor = hexadecimalValue;
+      }
+
+      var greenSlider = document.getElementById("greenRange");
+      var greenOutput = document.getElementById("greenDecimal");
+      var greenBinaryCalc = document.getElementById("greenBinary");
+      var greenHexCalc = document.getElementById("greenHexadecimal");
+      greenOutput.innerHTML = greenSlider.value;
+      greenBinaryCalc.innerHTML = binaryCalculator(parseInt(greenSlider.value, 10));
+      greenHexCalc.innerHTML = parseInt(greenSlider.value, 10).toString(16);
+      greenSlider.oninput = function() {
+        greenOutput.innerHTML = this.value;
+        greenBinaryCalc.innerHTML = binaryCalculator(parseInt(this.value, 10));
+        greenHexCalc.innerHTML = parseInt(this.value, 10).toString(16);
+        redHex = parseInt(document.getElementById("redRange").value, 10).toString(16);
+        greenHex = parseInt(document.getElementById("greenRange").value, 10).toString(16);
+        blueHex = parseInt(document.getElementById("blueRange").value, 10).toString(16);
+        if (redHex.length < 2) {
+          if (greenHex.length < 2) {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + '0' + String(redHex) + '0' + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + '0' + String(redHex) + '0' + String(greenHex) + String(blueHex);
+            }
+          } else {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + '0' + String(redHex) + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + '0' + String(redHex) + String(greenHex) + String(blueHex);
+            }
+          }
+        } else {
+          if (greenHex.length < 2) {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + String(redHex) + '0' + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + String(redHex) + '0' + String(greenHex) + String(blueHex);
+            }
+          } else {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + String(redHex) + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + String(redHex) + String(greenHex) + String(blueHex);
+            }
+          }
+        }
+        document.getElementById("colorBox").style.backgroundColor = hexadecimalValue;
+      }
+
+      var blueSlider = document.getElementById("blueRange");
+      var blueOutput = document.getElementById("blueDecimal");
+      var blueBinaryCalc = document.getElementById("blueBinary");
+      var blueHexCalc = document.getElementById("blueHexadecimal");
+      blueOutput.innerHTML = blueSlider.value;
+      blueBinaryCalc.innerHTML = binaryCalculator(parseInt(blueSlider.value, 10));
+      blueHexCalc.innerHTML = parseInt(blueSlider.value, 10).toString(16);
+      blueSlider.oninput = function() {
+        blueOutput.innerHTML = this.value;
+        blueBinaryCalc.innerHTML = binaryCalculator(parseInt(this.value, 10));
+        blueHexCalc.innerHTML = parseInt(this.value, 10).toString(16);
+        redHex = parseInt(document.getElementById("redRange").value, 10).toString(16);
+        greenHex = parseInt(document.getElementById("greenRange").value, 10).toString(16);
+        blueHex = parseInt(document.getElementById("blueRange").value, 10).toString(16);
+        if (redHex.length < 2) {
+          if (greenHex.length < 2) {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + '0' + String(redHex) + '0' + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + '0' + String(redHex) + '0' + String(greenHex) + String(blueHex);
+            }
+          } else {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + '0' + String(redHex) + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + '0' + String(redHex) + String(greenHex) + String(blueHex);
+            }
+          }
+        } else {
+          if (greenHex.length < 2) {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + String(redHex) + '0' + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + String(redHex) + '0' + String(greenHex) + String(blueHex);
+            }
+          } else {
+            if (blueHex.length < 2) {
+              hexadecimalValue = "#" + String(redHex) + String(greenHex) + '0' + String(blueHex);
+            } else {
+              hexadecimalValue = "#" + String(redHex) + String(greenHex) + String(blueHex);
+            }
+          }
+        }
+        document.getElementById("colorBox").style.backgroundColor = hexadecimalValue;
+      }
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  </body>
+</html>

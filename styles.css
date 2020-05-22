@@ -1,0 +1,31 @@
+.color {
+  border-style: solid;
+  border-color: black;
+  border-width: 5px;
+  text-align: center;
+  padding: 20px;
+  height: 200px;
+  font-family: monospace;
+  font-size: 100px;
+  background-color: #ffffff;
+}
+
+.stats {
+  font-family: fantasy;
+  font-size: 50px;
+  text-align: center;
+}
+
+.center {
+  text-align: center;
+}
+
+.box {
+border-style: solid;
+border-color: black;
+border-width: 5px;
+text-align: center;
+padding: 10px;
+height: 200px;
+background-color: #000000;
+}
